@@ -6,6 +6,7 @@ angular.module('ng-token-auth', ['ipCookie'])
     configs =
       default:
         apiUrl:                  '/api'
+        additionalApiUrl:        '/api'
         signOutUrl:              '/auth/sign_out'
         emailSignInPath:         '/auth/sign_in'
         emailRegistrationPath:   '/auth'
@@ -730,7 +731,7 @@ angular.module('ng-token-auth', ['ipCookie'])
                 $window.sessionStorage.removeItem(key)
               else
                 cookieOps = {path: @getConfig().cookieOps.path}
-                
+
                 if @getConfig().cookieOps.domain != undefined
                   cookieOps.domain = @getConfig().cookieOps.domain
 
@@ -887,7 +888,7 @@ angular.module('ng-token-auth', ['ipCookie'])
     $httpProvider.interceptors.push ['$injector', ($injector) ->
       request: (req) ->
         $injector.invoke ['$http', '$auth',  ($http, $auth) ->
-          if req.url.match($auth.apiUrl())
+          if req.url.match($auth.apiUrl()) || req.url.match($auth.additionalApiUrl)
             for key, val of $auth.retrieveData('auth_headers')
               req.headers[key] = val
         ]
@@ -896,7 +897,7 @@ angular.module('ng-token-auth', ['ipCookie'])
 
       response: (resp) ->
         $injector.invoke ['$http', '$auth', ($http, $auth) ->
-          if resp.config.url.match($auth.apiUrl())
+          if resp.config.url.match($auth.apiUrl()) || req.url.match($auth.additionalApiUrl)
             return updateHeadersFromResponse($auth, resp)
         ]
 
@@ -904,7 +905,7 @@ angular.module('ng-token-auth', ['ipCookie'])
 
       responseError: (resp) ->
         $injector.invoke ['$http', '$auth', ($http, $auth) ->
-          if resp.config.url.match($auth.apiUrl())
+          if resp.config.url.match($auth.apiUrl()) || req.url.match($auth.additionalApiUrl)
             return updateHeadersFromResponse($auth, resp)
         ]
 
