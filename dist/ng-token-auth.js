@@ -811,7 +811,7 @@ angular.module('ng-token-auth', ['ipCookie']).provider('$auth', function() {
           response: function(resp) {
             $injector.invoke([
               '$http', '$auth', function($http, $auth) {
-                if (resp.config.url.match($auth.apiUrl()) || req.url.match($auth.additionalApiUrl)) {
+                if (resp.config.url.match($auth.apiUrl()) || resp.config.url.match($auth.additionalApiUrl)) {
                   return updateHeadersFromResponse($auth, resp);
                 }
               }
@@ -821,7 +821,7 @@ angular.module('ng-token-auth', ['ipCookie']).provider('$auth', function() {
           responseError: function(resp) {
             $injector.invoke([
               '$http', '$auth', function($http, $auth) {
-                if (resp.config.url.match($auth.apiUrl()) || req.url.match($auth.additionalApiUrl)) {
+                if (resp.config.url.match($auth.apiUrl()) || resp.config.url.match($auth.additionalApiUrl)) {
                   return updateHeadersFromResponse($auth, resp);
                 }
               }

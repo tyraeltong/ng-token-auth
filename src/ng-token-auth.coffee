@@ -897,7 +897,7 @@ angular.module('ng-token-auth', ['ipCookie'])
 
       response: (resp) ->
         $injector.invoke ['$http', '$auth', ($http, $auth) ->
-          if resp.config.url.match($auth.apiUrl()) || req.url.match($auth.additionalApiUrl)
+          if resp.config.url.match($auth.apiUrl()) || resp.config.url.match($auth.additionalApiUrl)
             return updateHeadersFromResponse($auth, resp)
         ]
 
@@ -905,7 +905,7 @@ angular.module('ng-token-auth', ['ipCookie'])
 
       responseError: (resp) ->
         $injector.invoke ['$http', '$auth', ($http, $auth) ->
-          if resp.config.url.match($auth.apiUrl()) || req.url.match($auth.additionalApiUrl)
+          if resp.config.url.match($auth.apiUrl()) || resp.config.url.match($auth.additionalApiUrl)
             return updateHeadersFromResponse($auth, resp)
         ]
 
